@@ -23,8 +23,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 3 — Serve the frontend
 - [x] Part 4 — Fake user sign-in
 - [x] Part 5 — Database modeling
-- [~] Part 6 — Backend Kanban API
-- [ ] Part 7 — Frontend uses the backend
+- [x] Part 6 — Backend Kanban API
+- [~] Part 7 — Frontend uses the backend
 - [ ] Part 8 — AI connectivity
 - [ ] Part 9 — AI reads board + structured outputs
 - [ ] Part 10 — AI chat sidebar widget
@@ -136,10 +136,10 @@ Acceptance criteria:
 Goal: authenticated CRUD over a user's Kanban, persisted in SQLite (created if missing).
 
 Substeps:
-- [ ] Initialize the SQLite DB on startup if it does not exist (apply schema from Part 5).
-- [ ] `GET /api/board` returns the signed-in user's board.
-- [ ] `PUT /api/board` (or granular card/column routes) persists changes: add/delete/move cards, rename columns.
-- [ ] Enforce auth on all board routes; scope data to the signed-in user.
+- [x] Initialize the SQLite DB on startup if it does not exist (apply schema from Part 5).
+- [x] `GET /api/board` returns the signed-in user's board.
+- [x] `PUT /api/board` persists the full board (add/delete/move cards, rename columns).
+- [x] Enforce auth on all board routes; scope data to the signed-in user.
 
 Tests:
 - Backend unit tests (pytest): DB auto-creation; get board for a user; add/delete/move card; rename column; persistence across requests; unauthenticated access rejected; data isolated per user.

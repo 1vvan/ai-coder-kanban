@@ -1,14 +1,22 @@
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import Cookie, Depends, FastAPI, HTTPException, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from app import auth
+from app import auth, db
 
 STATIC_DIR = Path(__file__).parent / "static"
 
-app = FastAPI(title="Kanban API")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db.init_db()
+    yield
+
+
+app = FastAPI(title="Kanban API", lifespan=lifespan)
 
 
 @app.get("/api/health")
@@ -44,6 +52,35 @@ def logout(
 @app.get("/api/me")
 def me(user: str = Depends(auth.current_user)) -> dict[str, str]:
     return {"username": user}
+
+
+class Card(BaseModel):
+    id: str
+    columnId: str
+    title: str
+    description: str = ""
+
+
+class Column(BaseModel):
+    id: str
+    title: str
+
+
+class Board(BaseModel):
+    columns: list[Column]
+    cards: list[Card]
+
+
+@app.get("/api/board")
+def read_board(user: str = Depends(auth.current_user)) -> dict:
+    return db.get_board(user)
+
+
+@app.put("/api/board")
+def write_board(board: Board, user: str = Depends(auth.current_user)) -> dict:
+    data = board.model_dump()
+    db.save_board(user, data)
+    return data
 
 
 # Serve the built NextJS frontend at /.

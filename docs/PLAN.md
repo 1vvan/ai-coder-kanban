@@ -18,8 +18,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 
 ## Status overview
 
-- [~] Part 1 — Plan
-- [ ] Part 2 — Scaffolding (Docker + FastAPI + scripts)
+- [x] Part 1 — Plan
+- [x] Part 2 — Scaffolding (Docker + FastAPI + scripts)
 - [ ] Part 3 — Serve the frontend
 - [ ] Part 4 — Fake user sign-in
 - [ ] Part 5 — Database modeling
@@ -38,7 +38,7 @@ Goal: a detailed, approved plan and documentation of the existing frontend.
 Substeps:
 - [x] Enrich `docs/PLAN.md` with per-part substeps, tests, and acceptance criteria.
 - [x] Create `frontend/AGENTS.md` describing the existing frontend code (structure, state model in `lib/useBoard.ts`, components, test setup).
-- [ ] User reviews and approves the plan.
+- [x] User reviews and approves the plan.
 
 Tests: none (documentation only).
 
@@ -54,11 +54,11 @@ Acceptance criteria:
 Goal: a running Docker container serving a FastAPI "hello world" with one example API call, plus start/stop scripts.
 
 Substeps:
-- [ ] Create `backend/` FastAPI app using `uv` for dependency management (`pyproject.toml`).
-- [ ] Add a health/example API route (e.g. `GET /api/health` returning JSON) and serve a static `index.html` at `/`.
-- [ ] Write a `Dockerfile` (uv-based) and `docker-compose.yml` (or equivalent) exposing the app port.
-- [ ] Add `scripts/start.*` and `scripts/stop.*` for Mac, Linux, and Windows (build/run and stop the container).
-- [ ] Load configuration (port, env) from `.env` in the project root.
+- [x] Create `backend/` FastAPI app using `uv` for dependency management (`pyproject.toml`).
+- [x] Add a health/example API route (e.g. `GET /api/health` returning JSON) and serve a static `index.html` at `/`.
+- [x] Write a `Dockerfile` (uv-based) and `docker-compose.yml` (or equivalent) exposing the app port.
+- [x] Add `scripts/start.*` and `scripts/stop.*` for Mac, Linux, and Windows (build/run and stop the container).
+- [x] Load configuration (port, env) from `.env` in the project root.
 
 Tests:
 - Backend unit test: `GET /api/health` returns 200 and expected JSON (pytest + httpx/TestClient).

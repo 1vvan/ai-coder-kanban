@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kanban</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f8fafc;
+        color: #0f172a;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+      }
+      main {
+        text-align: center;
+      }
+      h1 {
+        color: #6366f1;
+      }
+      code {
+        background: #e2e8f0;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      #api {
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Hello from FastAPI</h1>
+      <p>Static site is being served.</p>
+      <p id="api">Calling <code>/api/health</code>...</p>
+    </main>
+    <script>
+      fetch("/api/health")
+        .then((r) => r.json())
+        .then((d) => {
+          document.getElementById("api").textContent =
+            "API /api/health: " + d.status;
+        })
+        .catch(() => {
+          document.getElementById("api").textContent = "API call failed";
+        });
+    </script>
+  </body>
+</html>

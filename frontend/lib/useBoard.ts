@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { BoardState, Card } from "./types";
-import { createInitialState } from "./seed";
+import { fetchBoard, saveBoard } from "./api";
 
 let idCounter = 0;
 function nextId(): string {
@@ -22,6 +22,20 @@ export function addCard(
 
 export function deleteCard(state: BoardState, cardId: string): BoardState {
   return { ...state, cards: state.cards.filter((c) => c.id !== cardId) };
+}
+
+export function editCard(
+  state: BoardState,
+  cardId: string,
+  title: string,
+  description: string,
+): BoardState {
+  return {
+    ...state,
+    cards: state.cards.map((c) =>
+      c.id === cardId ? { ...c, title, description } : c,
+    ),
+  };
 }
 
 export function renameColumn(
@@ -74,28 +88,58 @@ export function cardsForColumn(state: BoardState, columnId: string): Card[] {
 }
 
 export function useBoard() {
-  const [state, setState] = useState<BoardState>(createInitialState);
+  const [state, setState] = useState<BoardState | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    fetchBoard()
+      .then(setState)
+      .catch(() => setError(true));
+  }, []);
+
+  // Apply a pure mutation optimistically, then persist. On failure, reload
+  // from the server to reconcile.
+  const mutate = useCallback((fn: (s: BoardState) => BoardState) => {
+    setState((current) => {
+      if (!current) return current;
+      const next = fn(current);
+      saveBoard(next).catch(() => {
+        setError(true);
+        fetchBoard()
+          .then(setState)
+          .catch(() => {});
+      });
+      return next;
+    });
+  }, []);
 
   return {
     state,
+    loading: state === null && !error,
+    error,
     addCard: useCallback(
       (columnId: string, title: string, description: string) =>
-        setState((s) => addCard(s, columnId, title, description)),
-      [],
+        mutate((s) => addCard(s, columnId, title, description)),
+      [mutate],
     ),
     deleteCard: useCallback(
-      (cardId: string) => setState((s) => deleteCard(s, cardId)),
-      [],
+      (cardId: string) => mutate((s) => deleteCard(s, cardId)),
+      [mutate],
+    ),
+    editCard: useCallback(
+      (cardId: string, title: string, description: string) =>
+        mutate((s) => editCard(s, cardId, title, description)),
+      [mutate],
     ),
     renameColumn: useCallback(
       (columnId: string, title: string) =>
-        setState((s) => renameColumn(s, columnId, title)),
-      [],
+        mutate((s) => renameColumn(s, columnId, title)),
+      [mutate],
     ),
     moveCard: useCallback(
       (activeId: string, overId: string) =>
-        setState((s) => moveCard(s, activeId, overId)),
-      [],
+        mutate((s) => moveCard(s, activeId, overId)),
+      [mutate],
     ),
   };
 }

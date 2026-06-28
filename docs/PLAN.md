@@ -24,8 +24,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 4 — Fake user sign-in
 - [x] Part 5 — Database modeling
 - [x] Part 6 — Backend Kanban API
-- [~] Part 7 — Frontend uses the backend
-- [ ] Part 8 — AI connectivity
+- [x] Part 7 — Frontend uses the backend
+- [~] Part 8 — AI connectivity
 - [ ] Part 9 — AI reads board + structured outputs
 - [ ] Part 10 — AI chat sidebar widget
 
@@ -157,10 +157,10 @@ Acceptance criteria:
 Goal: the frontend reads and writes the real board via the API; persistence is end-to-end.
 
 Substeps:
-- [ ] Replace in-memory board state with API-backed loading and saving (load on mount, persist on mutation).
-- [ ] Add card editing: click a card to edit its title and description; persist via the API.
-- [ ] Handle loading and error states in the UI.
-- [ ] Keep optimistic UI for drag/add/delete/edit with reconciliation against the API response.
+- [x] Replace in-memory board state with API-backed loading and saving (load on mount, persist on mutation).
+- [x] Add card editing: edit a card's title and description; persist via the API.
+- [x] Handle loading and error states in the UI.
+- [x] Keep optimistic UI for drag/add/delete/edit with reconciliation (reload on save failure).
 
 Tests:
 - Frontend unit tests updated for the API-backed state layer (mock fetch), including the new edit operation.

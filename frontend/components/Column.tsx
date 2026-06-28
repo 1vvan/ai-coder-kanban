@@ -16,6 +16,7 @@ type ColumnProps = {
   onRename: (columnId: string, title: string) => void;
   onAddCard: (columnId: string, title: string, description: string) => void;
   onDeleteCard: (cardId: string) => void;
+  onEditCard: (cardId: string, title: string, description: string) => void;
 };
 
 export default function Column({
@@ -24,6 +25,7 @@ export default function Column({
   onRename,
   onAddCard,
   onDeleteCard,
+  onEditCard,
 }: ColumnProps) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(column.title);
@@ -89,7 +91,12 @@ export default function Column({
           strategy={verticalListSortingStrategy}
         >
           {cards.map((card) => (
-            <Card key={card.id} card={card} onDelete={onDeleteCard} />
+            <Card
+              key={card.id}
+              card={card}
+              onDelete={onDeleteCard}
+              onEdit={onEditCard}
+            />
           ))}
         </SortableContext>
       </div>

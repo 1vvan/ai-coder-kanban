@@ -17,7 +17,16 @@ import Column from "./Column";
 import CardView from "./CardView";
 
 export default function Board() {
-  const { state, addCard, deleteCard, renameColumn, moveCard } = useBoard();
+  const {
+    state,
+    loading,
+    error,
+    addCard,
+    deleteCard,
+    editCard,
+    renameColumn,
+    moveCard,
+  } = useBoard();
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
 
   const sensors = useSensors(
@@ -34,6 +43,22 @@ export default function Board() {
     const { active, over } = event;
     if (!over) return;
     moveCard(String(active.id), String(over.id));
+  }
+
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <p className="text-muted">Loading board...</p>
+      </div>
+    );
+  }
+
+  if (error || !state) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <p className="text-danger">Failed to load board. Please refresh.</p>
+      </div>
+    );
   }
 
   return (
@@ -54,6 +79,7 @@ export default function Board() {
             onRename={renameColumn}
             onAddCard={addCard}
             onDeleteCard={deleteCard}
+            onEditCard={editCard}
           />
         ))}
       </div>

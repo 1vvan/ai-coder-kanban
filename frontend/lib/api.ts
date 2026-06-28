@@ -1,3 +1,5 @@
+import type { BoardState } from "./types";
+
 export async function getMe(): Promise<string | null> {
   const res = await fetch("/api/me");
   if (!res.ok) return null;
@@ -19,4 +21,19 @@ export async function login(
 
 export async function logout(): Promise<void> {
   await fetch("/api/logout", { method: "POST" });
+}
+
+export async function fetchBoard(): Promise<BoardState> {
+  const res = await fetch("/api/board");
+  if (!res.ok) throw new Error("Failed to load board");
+  return res.json();
+}
+
+export async function saveBoard(board: BoardState): Promise<void> {
+  const res = await fetch("/api/board", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(board),
+  });
+  if (!res.ok) throw new Error("Failed to save board");
 }

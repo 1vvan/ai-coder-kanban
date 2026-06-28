@@ -1,5 +1,8 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
-import { login } from "./helpers";
+import { login, resetBoard } from "./helpers";
+
+// Board state is persisted in the backend; run serially and reset between tests.
+test.describe.configure({ mode: "serial" });
 
 function column(page: Page, name: string): Locator {
   return page.locator("section").filter({
@@ -24,6 +27,11 @@ async function dragCardTo(page: Page, card: Locator, target: Locator) {
 
 test.beforeEach(async ({ page }) => {
   await login(page);
+  await resetBoard(page);
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Kanban Board" }),
+  ).toBeVisible();
 });
 
 test("renders five columns", async ({ page }) => {
@@ -65,4 +73,32 @@ test("drags a card to another column", async ({ page }) => {
   await dragCardTo(page, card, done);
 
   await expect(done.getByText("Research competitors")).toBeVisible();
+});
+
+test("edits a card", async ({ page }) => {
+  const card = page
+    .locator("section div")
+    .filter({ has: page.getByRole("heading", { name: "Design board layout" }) })
+    .last();
+  await card.hover();
+  await card.getByRole("button", { name: "Edit card" }).click({ force: true });
+  await page.getByLabel("Edit card title").fill("Design the board");
+  await page.getByRole("button", { name: "Save" }).click();
+
+  await expect(page.getByText("Design the board")).toBeVisible();
+  await expect(page.getByText("Design board layout")).toHaveCount(0);
+});
+
+test("changes persist across reload", async ({ page }) => {
+  const todo = column(page, "To Do");
+  await todo.getByRole("button", { name: "Add a card" }).click();
+  await todo.getByLabel("Card title").fill("Persisted card");
+  await todo.getByRole("button", { name: "Add card" }).click();
+  await expect(todo.getByText("Persisted card")).toBeVisible();
+
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Kanban Board" }),
+  ).toBeVisible();
+  await expect(page.getByText("Persisted card")).toBeVisible();
 });

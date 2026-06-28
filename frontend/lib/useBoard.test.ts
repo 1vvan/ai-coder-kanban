@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   addCard,
   deleteCard,
+  editCard,
   renameColumn,
   moveCard,
   cardsForColumn,
@@ -59,6 +60,21 @@ describe("deleteCard", () => {
     const s = createInitialState();
     const next = deleteCard(s, "nope");
     expect(next.cards).toHaveLength(s.cards.length);
+  });
+});
+
+describe("editCard", () => {
+  it("updates title and description of the matching card only", () => {
+    const s = createInitialState();
+    const target = s.cards[0];
+    const next = editCard(s, target.id, "New title", "New desc");
+    const edited = next.cards.find((c) => c.id === target.id)!;
+    expect(edited.title).toBe("New title");
+    expect(edited.description).toBe("New desc");
+    // Other cards untouched.
+    expect(next.cards[1]).toEqual(s.cards[1]);
+    // Column membership unchanged.
+    expect(edited.columnId).toBe(target.columnId);
   });
 });
 

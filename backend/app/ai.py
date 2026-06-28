@@ -20,19 +20,27 @@ def _client() -> OpenAI:
 
 
 def _create(messages: list[dict], retries: int, **kwargs):
-    """Call the API, retrying on upstream rate limits (free-tier 429s)."""
+    """Call the API, retrying on upstream rate limits.
+
+    Free-tier models on OpenRouter often return HTTP 200 with an error body
+    ({"error": {"code": 429}}) instead of a real 429, leaving `choices` empty.
+    Treat any empty-choices response as a retryable rate limit.
+    """
     client = _client()
     delay = 2.0
     for attempt in range(retries):
         try:
-            return client.chat.completions.create(
+            res = client.chat.completions.create(
                 model=MODEL, messages=messages, **kwargs
             )
         except RateLimitError:
-            if attempt == retries - 1:
-                raise AIError("AI provider is rate-limited, try again shortly")
-            time.sleep(delay)
-            delay *= 2
+            res = None
+        if res is not None and getattr(res, "choices", None):
+            return res
+        if attempt == retries - 1:
+            raise AIError("AI provider is rate-limited, try again shortly")
+        time.sleep(delay)
+        delay *= 2
     raise AIError("AI request failed")
 
 

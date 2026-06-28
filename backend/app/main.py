@@ -5,7 +5,7 @@ from fastapi import Cookie, Depends, FastAPI, HTTPException, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from app import ai, auth, db
+from app import ai, auth, chat as chat_mod, db
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -93,6 +93,23 @@ def ai_ping(user: str = Depends(auth.current_user)) -> dict[str, str]:
     except ai.AIError as e:
         raise HTTPException(status_code=503, detail=str(e))
     return {"answer": answer}
+
+
+class ChatMessage(BaseModel):
+    message: str
+
+
+@app.get("/api/chat")
+def chat_history(user: str = Depends(auth.current_user)) -> list[dict]:
+    return db.get_messages(user)
+
+
+@app.post("/api/chat")
+def chat(msg: ChatMessage, user: str = Depends(auth.current_user)) -> dict:
+    try:
+        return chat_mod.handle_chat(user, msg.message)
+    except ai.AIError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
 
 # Serve the built NextJS frontend at /.

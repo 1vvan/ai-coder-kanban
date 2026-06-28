@@ -26,8 +26,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 6 — Backend Kanban API
 - [x] Part 7 — Frontend uses the backend
 - [x] Part 8 — AI connectivity
-- [~] Part 9 — AI reads board + structured outputs
-- [ ] Part 10 — AI chat sidebar widget
+- [x] Part 9 — AI reads board + structured outputs
+- [~] Part 10 — AI chat sidebar widget
 
 ---
 
@@ -197,10 +197,10 @@ Acceptance criteria:
 Goal: each AI call includes the board JSON plus the user's question and history; the AI returns Structured Outputs with a user-facing reply and an optional full board.
 
 Substeps:
-- [ ] Define the Structured Output schema: `{ reply: string, board?: <full board JSON> }` (when `board` is present, it is the complete new board state).
-- [ ] Build the request to always include the current board JSON, the user message, and persisted conversation history (from the `chat_messages` table).
-- [ ] Validate the returned full board against the schema; if valid, replace the stored board via the Part 6 persistence layer. Persist the user message and AI reply to chat history.
-- [ ] Add a chat endpoint, e.g. `POST /api/chat`.
+- [x] Define the Structured Output schema: `{ reply: string, board?: <full board JSON> }` (when `board` is present, it is the complete new board state).
+- [x] Build the request to always include the current board JSON, the user message, and persisted conversation history (from the `chat_messages` table).
+- [x] Validate the returned full board against the schema; if valid, replace the stored board via the Part 6 persistence layer. Persist the user message and AI reply to chat history.
+- [x] Add a chat endpoint (`POST /api/chat`, plus `GET /api/chat` for history).
 
 Tests:
 - Backend unit tests: prompt includes board + question + history; a structured response with a full board is validated and replaces the stored board; a reply-only response leaves the board unchanged; malformed/invalid board output is rejected safely; chat messages are persisted.

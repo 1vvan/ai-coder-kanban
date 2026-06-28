@@ -90,3 +90,24 @@ def save_board(username: str, board: dict) -> None:
             "UPDATE boards SET data = ?, updated_at = ? WHERE user_id = ?",
             (json.dumps(board), _now(), user_id),
         )
+
+
+def get_messages(username: str) -> list[dict]:
+    with connect() as conn:
+        user_id = ensure_user(conn, username)
+        rows = conn.execute(
+            "SELECT role, content FROM chat_messages WHERE user_id = ? "
+            "ORDER BY id",
+            (user_id,),
+        ).fetchall()
+        return [{"role": r["role"], "content": r["content"]} for r in rows]
+
+
+def add_message(username: str, role: str, content: str) -> None:
+    with connect() as conn:
+        user_id = ensure_user(conn, username)
+        conn.execute(
+            "INSERT INTO chat_messages (user_id, role, content, created_at) "
+            "VALUES (?, ?, ?, ?)",
+            (user_id, role, content, _now()),
+        )

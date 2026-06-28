@@ -1,30 +1,36 @@
-# AI Coder Kanban
-
-## Project
-
-A Kanban-style project-management system for a web application.
+# The Project Management MVP web app
 
 ## Business Requirements
 
-1. MVP application.
-2. There will be only one board.
-3. The board has 5 fixed columns, with the ability to rename them.
-4. Each card has only a title and a detailed description.
-5. Interface:
-   - (a) Drag-and-drop support.
-   - (b) Ability to add a new card to a column.
-   - (c) Deletion of existing cards.
-6. Very simple functionality: no archiving, search, or filtering.
+This project is building a Project Management App. Key features:
+- A user can sign in
+- When signed in, the user sees a Kanban board representing their project
+- The Kanban board has fixed columns that can be renamed
+- The cards on the Kanban board can be moved with drag and drop, and edited
+- There is an AI chat feature in a sidebar; the AI is able to create / edit / move one or more cards
 
-**Priority:** a stylish, beautiful, professional UI/UX with very simple functionality.
+## Limitations
 
-## Technical Details
+For the MVP, there will only be a user sign in (hardcoded to 'user' and 'password') but the database will support multiple users for future.
 
-- A modern Next.js application, client-rendered.
-- Created in a `frontend` subdirectory.
-- No data persistence — the application does not store any data.
-- No user management for the MVP.
-- Use popular libraries and keep things as simple as possible, while delivering a beautiful user interface.
+For the MVP, there will only be 1 Kanban board per signed in user.
+
+For the MVP, this will run locally (in a docker container)
+
+## Technical Decisions
+
+- NextJS frontend
+- Python FastAPI backend, including serving the static NextJS site at /
+- Everything packaged into a Docker container
+- Use "uv" as the package manager for python in the Docker container
+- Use OpenRouter for the AI calls. An OPENROUTER_API_KEY is in .env in the project root
+- Use `openai/gpt-oss-120b` as the model
+- Use SQLLite local database for the database, creating a new db if it doesn't exist
+- Start and Stop server scripts for Mac, PC, Linux in scripts/
+
+## Starting Point
+
+A working MVP of the frontend has been built and is already in frontend. This is not yet designed for the Docker setup. It's a pure frontend-only demo.
 
 ## Color Scheme
 
@@ -39,15 +45,14 @@ A clean, modern palette built around a neutral slate canvas with an indigo accen
 - **Success:** Emerald — `#10B981`
 - **Danger (delete):** Rose — `#F43F5E`
 
-## Strategy
+## Coding standards
 
-- Write a plan with success criteria for each phase to be checked off. Include project scaffolding (including `.gitignore`) and rigorous unit testing.
-- Execute the plan, ensuring all criteria are met.
-- Carry out extensive integration testing with Playwright or similar, fixing defects.
-- Only complete when the MVP is finished and tested, with the server running and ready for the user.
+1. Use latest versions of libraries and idiomatic approaches as of today
+2. Keep it simple - NEVER over-engineer, ALWAYS simplify, NO unnecessary defensive programming. No extra features - focus on simplicity.
+3. Be concise. Keep README minimal. IMPORTANT: no emojis ever
+4. When hitting issues, always identify root cause before trying a fix. Do not guess. Prove with evidence, then fix the root cause.
 
-## Coding Standards
+## Working documentation
 
-- Use the latest versions of libraries and idiomatic approaches as of today.
-- Keep it simple — NEVER over-engineer, ALWAYS simplify, NO unnecessary defensive programming. No extra features; focus on simplicity.
-- Be concise. Keep the README minimal. IMPORTANT: no emojis ever.
+All documents for planningand executing this project will be in the docs/ directory.
+Please review the docs/PLAN.md document before proceeding.

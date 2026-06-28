@@ -113,10 +113,14 @@ export function useBoard() {
     });
   }, []);
 
+  // Replace board state directly (e.g. with a board returned by the AI chat).
+  const setBoard = useCallback((board: BoardState) => setState(board), []);
+
   return {
     state,
     loading: state === null && !error,
     error,
+    setBoard,
     addCard: useCallback(
       (columnId: string, title: string, description: string) =>
         mutate((s) => addCard(s, columnId, title, description)),

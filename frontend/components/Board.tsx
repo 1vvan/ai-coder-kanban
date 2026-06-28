@@ -11,12 +11,12 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
-import { useBoard, cardsForColumn } from "@/lib/useBoard";
+import { cardsForColumn, type useBoard } from "@/lib/useBoard";
 import type { Card as CardType } from "@/lib/types";
 import Column from "./Column";
 import CardView from "./CardView";
 
-export default function Board() {
+export default function Board({ board }: { board: ReturnType<typeof useBoard> }) {
   const {
     state,
     loading,
@@ -26,7 +26,7 @@ export default function Board() {
     editCard,
     renameColumn,
     moveCard,
-  } = useBoard();
+  } = board;
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
 
   const sensors = useSensors(

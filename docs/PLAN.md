@@ -27,7 +27,7 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 7 — Frontend uses the backend
 - [x] Part 8 — AI connectivity
 - [x] Part 9 — AI reads board + structured outputs
-- [~] Part 10 — AI chat sidebar widget
+- [x] Part 10 — AI chat sidebar widget
 
 ---
 
@@ -219,9 +219,9 @@ Acceptance criteria:
 Goal: a polished chat sidebar; when the AI updates the board, the UI refreshes automatically.
 
 Substeps:
-- [ ] Build a sidebar chat UI (matching the color scheme in `CLAUDE.md`) with message history and input.
-- [ ] Send messages to `POST /api/chat` and render replies.
-- [ ] When a response includes a board update, refresh the board view automatically.
+- [x] Build a sidebar chat UI (matching the color scheme in `CLAUDE.md`) with message history and input.
+- [x] Send messages to `POST /api/chat` and render replies.
+- [x] When a response includes a board update, refresh the board view automatically (shared board state via `useBoard.setBoard`).
 
 Tests:
 - Frontend unit tests for the chat component (render messages, send, handle update flag).
@@ -237,6 +237,6 @@ Acceptance criteria:
 
 ## Definition of done (whole project)
 
-- All parts checked off; every listed test passes.
-- `scripts/start` brings up the full app (frontend + backend + DB + AI) in Docker; `scripts/stop` tears it down.
-- Sign in, manage the Kanban with persistence, and use the AI chat to edit the board end-to-end.
+- [x] All parts checked off; every listed test passes (backend pytest, frontend Vitest, Playwright E2E).
+- [x] `scripts/start` brings up the full app (frontend + backend + DB + AI) in Docker; `scripts/stop` tears it down.
+- [x] Sign in, manage the Kanban with persistence, and use the AI chat to edit the board end-to-end.

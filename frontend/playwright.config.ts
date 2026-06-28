@@ -7,7 +7,9 @@ const external = !!process.env.BASE_URL;
 
 export default defineConfig({
   testDir: "./e2e",
-  fullyParallel: true,
+  // All tests share one backend user/board, so run serially against it.
+  fullyParallel: false,
+  workers: 1,
   forbidOnly: !!process.env.CI,
   retries: 0,
   reporter: "list",

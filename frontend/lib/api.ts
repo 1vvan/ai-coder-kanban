@@ -37,3 +37,23 @@ export async function saveBoard(board: BoardState): Promise<void> {
   });
   if (!res.ok) throw new Error("Failed to save board");
 }
+
+export type ChatMsg = { role: "user" | "assistant"; content: string };
+
+export async function fetchChatHistory(): Promise<ChatMsg[]> {
+  const res = await fetch("/api/chat");
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export async function sendChat(
+  message: string,
+): Promise<{ reply: string; board: BoardState }> {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message }),
+  });
+  if (!res.ok) throw new Error("Chat failed");
+  return res.json();
+}

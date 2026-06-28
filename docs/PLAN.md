@@ -25,8 +25,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 5 — Database modeling
 - [x] Part 6 — Backend Kanban API
 - [x] Part 7 — Frontend uses the backend
-- [~] Part 8 — AI connectivity
-- [ ] Part 9 — AI reads board + structured outputs
+- [x] Part 8 — AI connectivity
+- [~] Part 9 — AI reads board + structured outputs
 - [ ] Part 10 — AI chat sidebar widget
 
 ---
@@ -180,8 +180,8 @@ Acceptance criteria:
 Goal: the backend can call the AI via OpenRouter.
 
 Substeps:
-- [ ] Add an OpenRouter client reading `OPENROUTER_API_KEY` from `.env`, using model `openai/gpt-oss-120b`.
-- [ ] Add an internal/diagnostic route or test that asks the AI a trivial question ("what is 2+2").
+- [x] Add an OpenRouter client reading `OPENROUTER_API_KEY` from `.env`, using model `openai/gpt-oss-120b:free` (free tier, with retry on upstream 429).
+- [x] Add a diagnostic route (`GET /api/ai/ping`) that asks the AI a trivial question ("what is 2+2").
 
 Tests:
 - Connectivity test: the AI call returns a response containing the expected answer ("4"). Skipped gracefully if the key is absent.

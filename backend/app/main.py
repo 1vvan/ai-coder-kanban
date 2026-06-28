@@ -5,7 +5,7 @@ from fastapi import Cookie, Depends, FastAPI, HTTPException, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from app import auth, db
+from app import ai, auth, db
 
 STATIC_DIR = Path(__file__).parent / "static"
 
@@ -81,6 +81,18 @@ def write_board(board: Board, user: str = Depends(auth.current_user)) -> dict:
     data = board.model_dump()
     db.save_board(user, data)
     return data
+
+
+@app.get("/api/ai/ping")
+def ai_ping(user: str = Depends(auth.current_user)) -> dict[str, str]:
+    """Diagnostic: confirm AI connectivity with a trivial question."""
+    try:
+        answer = ai.chat(
+            [{"role": "user", "content": "What is 2+2? Reply with just the number."}]
+        )
+    except ai.AIError as e:
+        raise HTTPException(status_code=503, detail=str(e))
+    return {"answer": answer}
 
 
 # Serve the built NextJS frontend at /.

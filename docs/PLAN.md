@@ -22,8 +22,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 2 — Scaffolding (Docker + FastAPI + scripts)
 - [x] Part 3 — Serve the frontend
 - [x] Part 4 — Fake user sign-in
-- [~] Part 5 — Database modeling
-- [ ] Part 6 — Backend Kanban API
+- [x] Part 5 — Database modeling
+- [~] Part 6 — Backend Kanban API
 - [ ] Part 7 — Frontend uses the backend
 - [ ] Part 8 — AI connectivity
 - [ ] Part 9 — AI reads board + structured outputs
@@ -118,9 +118,9 @@ Acceptance criteria:
 Goal: an approved SQLite schema (JSON board payload) documented in `docs/`.
 
 Substeps:
-- [ ] Design schema: `users` (multi-user ready), per-user Kanban board stored as JSON (one board per user for the MVP), and a `chat_messages` table for persisted AI chat history (scoped per user).
-- [ ] Document the schema and approach in `docs/DATABASE.md` (tables, columns, JSON board shape, chat history shape, how a DB is created if missing).
-- [ ] User reviews and signs off the schema.
+- [x] Design schema: `users` (multi-user ready), per-user Kanban board stored as JSON (one board per user for the MVP), and a `chat_messages` table for persisted AI chat history (scoped per user).
+- [x] Document the schema and approach in `docs/DATABASE.md` (tables, columns, JSON board shape, chat history shape, how a DB is created if missing).
+- [x] User reviews and signs off the schema.
 
 Tests: none (design + documentation). Validation happens in Part 6.
 

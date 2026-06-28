@@ -1,5 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// When BASE_URL is set (e.g. the Docker container), test against it and skip
+// starting the dev server. Otherwise default to the local dev server.
+const baseURL = process.env.BASE_URL ?? "http://localhost:3000";
+const external = !!process.env.BASE_URL;
+
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
@@ -7,16 +12,16 @@ export default defineConfig({
   retries: 0,
   reporter: "list",
   use: {
-    baseURL: "http://localhost:3000",
+    baseURL,
     trace: "on-first-retry",
   },
-  projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-  ],
-  webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  webServer: external
+    ? undefined
+    : {
+        command: "npm run dev",
+        url: "http://localhost:3000",
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000,
+      },
 });

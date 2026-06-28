@@ -20,8 +20,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 
 - [x] Part 1 — Plan
 - [x] Part 2 — Scaffolding (Docker + FastAPI + scripts)
-- [ ] Part 3 — Serve the frontend
-- [ ] Part 4 — Fake user sign-in
+- [x] Part 3 — Serve the frontend
+- [~] Part 4 — Fake user sign-in
 - [ ] Part 5 — Database modeling
 - [ ] Part 6 — Backend Kanban API
 - [ ] Part 7 — Frontend uses the backend
@@ -77,9 +77,9 @@ Acceptance criteria:
 Goal: the demo Kanban board is statically built and served by FastAPI at `/`.
 
 Substeps:
-- [ ] Configure NextJS static export of the existing frontend.
-- [ ] Build the frontend in the Docker image and have FastAPI serve the static output at `/` (with SPA/asset routing).
-- [ ] Wire the frontend build into `scripts/start` and the Dockerfile.
+- [x] Configure NextJS static export of the existing frontend.
+- [x] Build the frontend in the Docker image and have FastAPI serve the static output at `/` (with SPA/asset routing).
+- [x] Wire the frontend build into `scripts/start` and the Dockerfile.
 
 Tests:
 - Frontend unit tests (Vitest) continue to pass (existing `lib/useBoard.test.ts`).

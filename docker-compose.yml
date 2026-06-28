@@ -1,6 +1,6 @@
 services:
   app:
-    build: ./backend
+    build: .
     ports:
       - "${PORT:-8000}:8000"
     env_file:

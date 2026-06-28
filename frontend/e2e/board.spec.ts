@@ -1,4 +1,5 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
+import { login } from "./helpers";
 
 function column(page: Page, name: string): Locator {
   return page.locator("section").filter({
@@ -22,10 +23,7 @@ async function dragCardTo(page: Page, card: Locator, target: Locator) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
-  await expect(
-    page.getByRole("heading", { name: "Kanban Board" }),
-  ).toBeVisible();
+  await login(page);
 });
 
 test("renders five columns", async ({ page }) => {

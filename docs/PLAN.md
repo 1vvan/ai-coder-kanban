@@ -21,8 +21,8 @@ Full-stack Project Management MVP: a Kanban board with sign-in and an AI chat si
 - [x] Part 1 — Plan
 - [x] Part 2 — Scaffolding (Docker + FastAPI + scripts)
 - [x] Part 3 — Serve the frontend
-- [~] Part 4 — Fake user sign-in
-- [ ] Part 5 — Database modeling
+- [x] Part 4 — Fake user sign-in
+- [~] Part 5 — Database modeling
 - [ ] Part 6 — Backend Kanban API
 - [ ] Part 7 — Frontend uses the backend
 - [ ] Part 8 — AI connectivity
@@ -97,9 +97,9 @@ Acceptance criteria:
 Goal: gate the board behind a login (`user` / `password`) with logout.
 
 Substeps:
-- [ ] Add backend auth endpoints: `POST /api/login` (validates hardcoded credentials, issues a session token/cookie) and `POST /api/logout`.
-- [ ] Protect board access so unauthenticated requests are rejected/redirected.
-- [ ] Add a frontend login page and logout control; redirect to login when not authenticated.
+- [x] Add backend auth endpoints: `POST /api/login` (validates hardcoded credentials, issues a session token/cookie), `POST /api/logout`, and `GET /api/me`.
+- [x] Protect board access so unauthenticated requests are rejected (401 from `GET /api/me`; the SPA gates on it).
+- [x] Add a frontend login page and logout control; show login when not authenticated.
 
 Tests:
 - Backend unit tests: correct credentials succeed; wrong credentials return 401; logout invalidates the session.
